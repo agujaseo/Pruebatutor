@@ -69,12 +69,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Exercise Template Functions (Expanded) ---
 
     function generateNounExercise() {
-        const isProper = Math.random() > 0.5;
-        const correctAnswer = isProper ? getRandomElement(properNouns) : getRandomElement(commonNouns);
-        const question = `Is "<b>${correctAnswer}</b>" a Common Noun or a Proper Noun?`;
-        const options = shuffleArray(['Common Noun', 'Proper Noun']);
-        const answer = isProper ? 'Proper Noun' : 'Common Noun';
-        return { type: 'multiple-choice', question, options, answer };
+        const exerciseType = Math.floor(Math.random() * 2); // 0 o 1
+        
+        if (exerciseType === 0) {
+            // Ejercicio de completar espacios
+            const noun = getRandomElement([...commonNouns, ...properNouns]);
+            const sentence = `The word "<b>${noun}</b>" is a ______ noun.`;
+            const answer = properNouns.includes(noun) ? 'Proper' : 'Common';
+            return { type: 'fill-blank', question: sentence, answer };
+        } else {
+            // Ejercicio multiple choice original
+            const isProper = Math.random() > 0.5;
+            const correctAnswer = isProper ? getRandomElement(properNouns) : getRandomElement(commonNouns);
+            const question = `Is "<b>${correctAnswer}</b>" a Common Noun or a Proper Noun?`;
+            const options = shuffleArray(['Common Noun', 'Proper Noun']);
+            const answer = isProper ? 'Proper Noun' : 'Common Noun';
+            return { type: 'multiple-choice', question, options, answer };
+        }
     }
 
     function generateVerbExercise(tense = 'present') {
@@ -256,44 +267,97 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Data structure for units (Assigning Generators) ---
     const unitsData = [
-        { title: '📚 Unit 1: Nouns', contentHTML: `<p>Nouns are words for people, places, things, or ideas...</p>`, exerciseGenerator: generateNounExercise },
-        { title: '🏃 Unit 2: Verbs (Present Tense)', contentHTML: `<p>Verbs show action or a state of being...</p>`, exerciseGenerator: () => generateVerbExercise('present') },
-        { title: '🎨 Unit 3: Adjectives', contentHTML: `<p>Adjectives describe nouns...</p>`, exerciseGenerator: generateAdjectiveExercise },
-        { title: '👤 Unit 4: Pronouns', contentHTML: `<p>Pronouns replace nouns...</p>`, exerciseGenerator: generatePronounExercise },
-        { title: '❓ Unit 5: Sentences', contentHTML: `<p>A sentence is a complete thought...</p>`, exerciseGenerator: generateSentenceTypeExercise },
-        { title: '➕ Unit 6: Plural Nouns', contentHTML: `<p>Making nouns plural...</p>`, exerciseGenerator: generatePluralNounExercise },
-        { title: '⏳ Unit 7: Past Tense Verbs', contentHTML: `<p>Verbs in the past...</p>`, exerciseGenerator: () => generateVerbExercise('past') },
-        { title: '↔️ Unit 8: Synonyms & Antonyms', contentHTML: `<p>Words with similar or opposite meanings...</p>`, exerciseGenerator: generateSynonymAntonymExercise },
-        { title: '🔗 Unit 9: Conjunctions', contentHTML: `<p>Joining words and sentences...</p>`, exerciseGenerator: generateConjunctionExercise },
-        { title: '✏️ Unit 10: Punctuation', contentHTML: `<p>Ending sentences correctly...</p>`, exerciseGenerator: generatePunctuationExercise },
-        { title: '🚀 Unit 11: Future Simple (will)', contentHTML: `<p>Talking about future actions with "will"...</p>`, exerciseGenerator: generateFutureSimpleExercise },
-        { title: '⏱️ Unit 12: Present Continuous', contentHTML: `<p>Actions happening right now (-ing form)...</p>`, exerciseGenerator: generatePresentContinuousExercise },
+        { title: '📚 Unidad 1: Sustantivos', contentHTML: `<p>Los sustantivos son palabras para personas, lugares, cosas o ideas.<br>Ejemplo: "<b>cat</b>" (gato), "<b>London</b>" (Londres)</p>`, exerciseGenerator: generateNounExercise },
+        { title: '🏃 Unidad 2: Verbos (Presente)', contentHTML: `<p>Los verbos muestran acción o estado.<br>Estructura: I <b>run</b> (corro), He <b>runs</b> (corre)</p>`, exerciseGenerator: () => generateVerbExercise('present') },
+        { title: '🎨 Unidad 3: Adjetivos', contentHTML: `<p>Describen sustantivos.<br>Ejemplo: "The <b>happy</b> cat" (El gato feliz)</p>`, exerciseGenerator: generateAdjectiveExercise },
+        { title: '👤 Unidad 4: Pronombres', contentHTML: `<p>Reemplazan sustantivos.<br>Ejemplo: "<b>She</b> runs" (Ella corre) en vez de "Sarah runs"</p>`, exerciseGenerator: generatePronounExercise },
+        { title: '❓ Unidad 5: Tipos de Oraciones', contentHTML: `<p>Una oración expresa un pensamiento completo.<br>Tipos: Declarativas, interrogativas, exclamativas</p>`, exerciseGenerator: generateSentenceTypeExercise },
+        { title: '➕ Unidad 6: Plurales', contentHTML: `<p>Formas plurales de sustantivos.<br>Ejemplo: "cat" → "cats", "child" → "children"</p>`, exerciseGenerator: generatePluralNounExercise },
+        { title: '⏳ Unidad 7: Verbos (Pasado)', contentHTML: `<p>Acciones en el pasado.<br>Ejemplo: "I <b>ran</b>" (corrí), "She <b>jumped</b>" (saltó)</p>`, exerciseGenerator: () => generateVerbExercise('past') },
+        { title: '↔️ Unidad 8: Sinónimos & Antónimos', contentHTML: `<p>Palabras con significados similares/opuestos.<br>Ejemplo: "happy" = "glad", "happy" ≠ "sad"</p>`, exerciseGenerator: generateSynonymAntonymExercise },
+        { title: '🔗 Unidad 9: Conjunciones', contentHTML: `<p>Unen palabras y oraciones.<br>Ejemplo: "I like tea <b>and</b> coffee"</p>`, exerciseGenerator: generateConjunctionExercise },
+        { title: '✏️ Unidad 10: Puntuación', contentHTML: `<p>Signos para terminar oraciones.<br>".", "?", "!" - Ejemplo: "How are you<b>?</b>"</p>`, exerciseGenerator: generatePunctuationExercise },
+        { title: '🚀 Unidad 11: Futuro Simple (will)', contentHTML: `<p>Acciones futuras con "will + verbo".<br>Ejemplo: "I <b>will eat</b>" (comeré)</p>`, exerciseGenerator: generateFutureSimpleExercise },
+        { title: '⏱️ Unidad 12: Presente Continuo', contentHTML: `<p>Acciones en este momento (-ing).<br>Estructura: "am/is/are + verbo-ing"<br>Ejemplo: "She <b>is running</b>" (está corriendo)</p>`, exerciseGenerator: generatePresentContinuousExercise },
     ];
 
     // --- HTML Generation and Event Handling ---
 
-    function generateMultipleChoiceHTML(exercise, uniqueIndex) {
-        let optionsHTML = exercise.options.map((option) => `
-            <label><input type="radio" name="exercise-${uniqueIndex}" value="${option}"> ${option}</label><br>
-        `).join('');
-
-        // Add exercise number (extract from uniqueIndex like "unitIndex-questionIndex")
+    function generateExerciseHTML(exercise, uniqueIndex) {
         const questionNumber = parseInt(uniqueIndex.split('-')[1]) + 1;
-
-        return `
-            <div class="exercise" id="exercise-container-${uniqueIndex}">
-                <h3>✏️ Exercise ${questionNumber}</h3>
-                <p>${exercise.question}</p>
-                <form id="exercise-form-${uniqueIndex}">
-                    ${optionsHTML}
-                    <button type="submit">Check Answer</button>
-                </form>
-                <div class="feedback-controls">
-                     <p id="feedback-${uniqueIndex}" class="feedback"></p>
-                     <button class="refresh-single-btn" id="refresh-btn-${uniqueIndex}" style="display: none;">🔄 Otra Pregunta</button>
+        
+        if (exercise.type === 'fill-blank') {
+            return `
+                <div class="exercise" id="exercise-container-${uniqueIndex}">
+                    <h3>✏️ Ejercicio ${questionNumber}</h3>
+                    <p>${exercise.question.replace('______', `<input type="text" name="exercise-${uniqueIndex}" id="input-${uniqueIndex}">`)}</p>
+                    <button type="button" id="check-btn-${uniqueIndex}">Comprobar</button>
+                    <div class="feedback-controls">
+                        <p id="feedback-${uniqueIndex}" class="feedback"></p>
+                        <button class="refresh-single-btn" id="refresh-btn-${uniqueIndex}" style="display: none;">🔄 Otra Pregunta</button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            let optionsHTML = exercise.options.map((option) => `
+                <label><input type="radio" name="exercise-${uniqueIndex}" value="${option}"> ${option}</label><br>
+            `).join('');
+
+            return `
+                <div class="exercise" id="exercise-container-${uniqueIndex}">
+                    <h3>✏️ Ejercicio ${questionNumber}</h3>
+                    <p>${exercise.question}</p>
+                    <form id="exercise-form-${uniqueIndex}">
+                        ${optionsHTML}
+                        <button type="submit">Comprobar</button>
+                    </form>
+                    <div class="feedback-controls">
+                        <p id="feedback-${uniqueIndex}" class="feedback"></p>
+                        <button class="refresh-single-btn" id="refresh-btn-${uniqueIndex}" style="display: none;">🔄 Otra Pregunta</button>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function checkAnswer(uniqueIndex, userAnswer) {
+        const exerciseIndex = parseInt(uniqueIndex.split('-')[1]);
+        const exercise = currentUnitExercises[exerciseIndex];
+        const feedbackElement = document.getElementById(`feedback-${uniqueIndex}`);
+        
+        feedbackElement.className = 'feedback';
+        
+        if (userAnswer.toLowerCase() === exercise.answer.toLowerCase()) {
+            feedbackElement.innerHTML = '✅ ¡Correcto!';
+            feedbackElement.classList.add('correct');
+        } else {
+            feedbackElement.innerHTML = `❌ Casi. La respuesta correcta es "<b>${exercise.answer}</b>".`;
+            feedbackElement.classList.add('incorrect');
+        }
+    }
+
+    function checkFillBlank(uniqueIndex) {
+        const input = document.getElementById(`input-${uniqueIndex}`);
+        const feedbackElement = document.getElementById(`feedback-${uniqueIndex}`);
+        const refreshButton = document.getElementById(`refresh-btn-${uniqueIndex}`);
+        
+        if (!input || !input.value.trim()) {
+            feedbackElement.textContent = '🤔 Por favor escribe una respuesta.';
+            feedbackElement.className = 'feedback prompt';
+            return;
+        }
+
+        checkAnswer(uniqueIndex, input.value);
+        input.disabled = true;
+        
+        const button = document.querySelector(`#exercise-container-${uniqueIndex} button`);
+        if (button) {
+            button.disabled = true;
+        }
+        
+        if (refreshButton) {
+            refreshButton.style.display = 'inline-block';
+        }
     }
 
     function handleMultipleChoiceSubmit(event, uniqueIndex) {
@@ -307,21 +371,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const exercise = currentUnitExercises[exerciseIndex];
         if (!exercise) return;
 
-        feedbackElement.className = 'feedback'; // Reset classes
+        feedbackElement.className = 'feedback';
 
         if (selectedAnswer) {
-            if (selectedAnswer.value === exercise.answer) {
-                feedbackElement.innerHTML = '✅ Correct!';
-                feedbackElement.classList.add('correct');
-            } else {
-                feedbackElement.innerHTML = `❌ Not quite. The correct answer is "<b>${exercise.answer}</b>".`;
-                feedbackElement.classList.add('incorrect');
-            }
+            checkAnswer(uniqueIndex, selectedAnswer.value);
             form.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
             form.querySelector('button').disabled = true;
-            refreshButton.style.display = 'inline-block'; // Show refresh button
+            refreshButton.style.display = 'inline-block';
         } else {
-            feedbackElement.textContent = '🤔 Please select an answer.';
+            feedbackElement.textContent = '🤔 Por favor selecciona una respuesta.';
             feedbackElement.classList.add('prompt');
             refreshButton.style.display = 'none';
         }
@@ -337,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentUnitExercises[exerciseIndex] = newExercise; // Update the stored exercise data
 
         // Regenerate HTML for this specific exercise
-        const newExerciseHTML = generateMultipleChoiceHTML(newExercise, uniqueIndex);
+        const newExerciseHTML = generateExerciseHTML(newExercise, uniqueIndex);
 
         // Replace the old exercise container with the new one
         const exerciseContainer = document.getElementById(`exercise-container-${uniqueIndex}`);
@@ -350,14 +408,22 @@ document.addEventListener('DOMContentLoaded', function() {
             // Replace the old element with the new one
             exerciseContainer.parentNode.replaceChild(newExerciseElement, exerciseContainer);
 
-            // Re-attach event listener to the new form
-            const newForm = document.getElementById(`exercise-form-${uniqueIndex}`);
-            if (newForm) {
-                newForm.addEventListener('submit', (e) => handleMultipleChoiceSubmit(e, uniqueIndex));
+            // Re-attach event listeners based on exercise type
+            if (newExercise.type === 'multiple-choice') {
+                const newForm = document.getElementById(`exercise-form-${uniqueIndex}`);
+                if (newForm) {
+                    newForm.addEventListener('submit', (e) => handleMultipleChoiceSubmit(e, uniqueIndex));
+                }
+            } else {
+                const newButton = document.querySelector(`#exercise-container-${uniqueIndex} button`);
+                if (newButton) {
+                    newButton.onclick = () => checkFillBlank(uniqueIndex);
+                }
             }
-             // Re-attach event listener to the new refresh button
+            
+            // Re-attach refresh button listener
             const newRefreshButton = document.getElementById(`refresh-btn-${uniqueIndex}`);
-             if (newRefreshButton) {
+            if (newRefreshButton) {
                 newRefreshButton.addEventListener('click', (e) => refreshSingleExercise(e, uniqueIndex));
             }
         }
@@ -390,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  const exercise = currentUnitData.exerciseGenerator();
                  currentUnitExercises.push(exercise);
                  const uniqueIndex = `${unitIndex}-${i}`;
-                 exercisesHTML += generateMultipleChoiceHTML(exercise, uniqueIndex);
+                 exercisesHTML += generateExerciseHTML(exercise, uniqueIndex);
              }
          } else {
              // Handle units without generators (e.g., show fixed or message)
@@ -412,8 +478,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (form && exercise.type === 'multiple-choice') {
                  form.addEventListener('submit', (e) => handleMultipleChoiceSubmit(e, uniqueIndex));
             }
+            // Set up event listeners for both exercise types
+            const checkButton = document.getElementById(`check-btn-${uniqueIndex}`);
+            if (checkButton) {
+                checkButton.onclick = () => checkFillBlank(uniqueIndex);
+            }
+            
             if (refreshButton) {
-                 refreshButton.addEventListener('click', (e) => refreshSingleExercise(e, uniqueIndex));
+                refreshButton.addEventListener('click', (e) => refreshSingleExercise(e, uniqueIndex));
             }
         });
 
