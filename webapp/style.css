@@ -1,0 +1,222 @@
+/* General Styles */
+body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif; /* More playful font */
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa; /* Light cyan background */
+    color: #333;
+}
+
+header {
+    background-color: #00bcd4; /* Cyan header */
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+main {
+    display: flex;
+    padding: 25px;
+    gap: 25px; /* Add gap between nav and content */
+}
+
+/* Navigation Styles */
+nav {
+    width: 220px; /* Slightly wider */
+    background-color: #ffffff; /* White background */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    margin-bottom: 8px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #00796b; /* Teal color */
+    display: block;
+    padding: 10px 15px; /* More padding */
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: bold;
+}
+
+nav a:hover, nav a.active { /* Add active class styling later if needed */
+    background-color: #b2dfdb; /* Light teal background on hover */
+    color: #004d40; /* Darker teal text on hover */
+}
+
+/* Content Area Styles */
+#content {
+    flex: 1;
+    padding: 25px;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#content h2 {
+    color: #00796b; /* Teal heading */
+    margin-top: 0;
+    border-bottom: 2px solid #b2dfdb;
+    padding-bottom: 10px;
+}
+
+#content ul {
+    padding-left: 20px;
+}
+
+#content li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Exercise Styles */
+.exercise {
+    margin-top: 25px;
+    margin-bottom: 20px; /* Add space between multiple exercises */
+    padding: 20px;
+    border: 2px dashed #00bcd4; /* Dashed cyan border */
+    border-radius: 8px;
+    background-color: #f0f0f0; /* Light grey background */
+}
+
+.exercise h3 {
+    margin-top: 0;
+    color: #00796b; /* Teal heading */
+    font-size: 1.2em;
+}
+
+.exercise p { /* Style question text */
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+.exercise label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    cursor: pointer;
+}
+
+.exercise input[type="radio"] {
+    margin-right: 8px;
+}
+
+.exercise button {
+    margin-top: 15px;
+    padding: 10px 20px; /* Bigger button */
+    font-size: 1.1em;
+    background-color: #ff9800; /* Orange button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.exercise button:hover {
+    background-color: #f57c00; /* Darker orange on hover */
+}
+
+/* Feedback Styles */
+.feedback { /* General feedback style */
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.feedback.correct {
+    background-color: #c8e6c9; /* Light green background */
+    color: #2e7d32; /* Dark green text */
+    border: 1px solid #a5d6a7;
+}
+
+.feedback.incorrect {
+    background-color: #ffcdd2; /* Light red background */
+    color: #c62828; /* Dark red text */
+    border: 1px solid #ef9a9a;
+}
+
+.feedback.prompt {
+    background-color: #fff9c4; /* Light yellow background */
+    color: #f57f17; /* Dark yellow/orange text */
+    border: 1px solid #fff59d;
+}
+
+/* Container for feedback and single refresh button */
+.feedback-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between feedback and button */
+    margin-top: 10px;
+}
+
+.feedback-controls .feedback {
+    margin-top: 0; /* Remove default top margin */
+    flex-grow: 1; /* Allow feedback to take available space */
+}
+
+/* Style for the single refresh button */
+.refresh-single-btn {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    background-color: #607d8b; /* Blue grey */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.refresh-single-btn:hover {
+    background-color: #455a64; /* Darker blue grey */
+}
+
+/* Style for the full test refresh button container */
+.refresh-all-container {
+    text-align: center; /* Center the button */
+    margin-top: 30px; /* Space above the button */
+    padding-top: 20px;
+    border-top: 1px solid #eee; /* Separator line */
+}
+
+#refresh-all-btn {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    background-color: #4caf50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#refresh-all-btn:hover {
+    background-color: #388e3c; /* Darker green */
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    margin-top: 25px;
+    background-color: #00bcd4; /* Cyan footer */
+    color: white;
+}
